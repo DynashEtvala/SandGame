@@ -3,7 +3,9 @@
 #include "MatManager.h"
 
 Grain::Grain(int X, int Y) : GMaterial(X, Y)
-{}
+{
+	density = 9;
+}
 
 
 Grain::~Grain()
@@ -11,73 +13,41 @@ Grain::~Grain()
 
 void Grain::Update(GMaterial*** matList, int bottom, int side, MatManager& m)
 {
-	if (posY == bottom - 1)
+	if (!updated)
 	{
-		m.PrepChange(posX, posY, AIR);
-	}
-	else if (matList[posY + 1][posX]->type == AIR || matList[posY + 1][posX]->liquid)
-	{
-		m.PrepChange(posX, posY + 1, type);
-		if (matList[posY + 1][posX]->liquid)
-		{
-			m.PrepChange(posX, posY, matList[posY + 1][posX]->type);
-		}
-		else
+		if (posY == bottom - 1)
 		{
 			m.PrepChange(posX, posY, AIR);
 		}
-	}
-	else if (((matList[posY + 1][posX + 1]->type == AIR || matList[posY + 1][posX + 1]->liquid) && (matList[posY][posX + 1]->type == AIR || matList[posY][posX + 1]->liquid)) || ((matList[posY + 1][posX - 1]->type == AIR || matList[posY + 1][posX - 1]->liquid) && (matList[posY][posX - 1]->type == AIR || matList[posY][posX - 1]->liquid)))
-	{
-		if ((matList[posY + 1][posX + 1]->type == AIR || matList[posY + 1][posX + 1]->liquid) && matList[posY + 1][posX - 1]->type != AIR)
+		else if (!matList[posY + 1][posX]->updated && matList[posY + 1][posX]->density < density)
 		{
-			m.PrepChange(posX + 1, posY + 1, type);
-			if (matList[posY + 1][posX + 1]->liquid)
-			{
-				m.PrepChange(posX, posY, matList[posY + 1][posX + 1]->type);
-			}
-			else
-			{
-				m.PrepChange(posX, posY, AIR);
-			}
+			m.PrepChange(posX, posY, matList[posY + 1][posX]->type);
+			m.PrepChange(posX, posY + 1, type);
 		}
-		else if (matList[posY + 1][posX + 1]->type != AIR && (matList[posY + 1][posX - 1]->type == AIR || matList[posY + 1][posX - 1]->liquid))
+		else if ((matList[posY + 1][posX + 1]->density < density && matList[posY][posX + 1]->density < density) || (matList[posY + 1][posX - 1]->density < density && matList[posY][posX - 1]->density < density))
 		{
-			m.PrepChange(posX - 1, posY + 1, type);
-			if (matList[posY + 1][posX - 1]->liquid)
+			if ((!matList[posY + 1][posX + 1]->updated && matList[posY + 1][posX + 1]->density < density && matList[posY][posX + 1]->density < density) && (!matList[posY + 1][posX - 1]->updated && matList[posY + 1][posX - 1]->density < density && matList[posY][posX - 1]->density < density))
 			{
-				m.PrepChange(posX, posY, matList[posY + 1][posX - 1]->type);
-			}
-			else
-			{
-				m.PrepChange(posX, posY, AIR);
-			}
-		}
-		else
-		{
-			if (GetRandomValue(0, 1))
-			{
-				m.PrepChange(posX + 1, posY + 1, type);
-				if (matList[posY + 1][posX + 1]->liquid)
+				if (GetRandomValue(0, 1))
 				{
 					m.PrepChange(posX, posY, matList[posY + 1][posX + 1]->type);
+					m.PrepChange(posX + 1, posY + 1, type);
 				}
 				else
-				{
-					m.PrepChange(posX, posY, AIR);
-				}
-			}
-			else
-			{
-				m.PrepChange(posX - 1, posY + 1, type);
-				if (matList[posY + 1][posX - 1]->liquid)
 				{
 					m.PrepChange(posX, posY, matList[posY + 1][posX - 1]->type);
+					m.PrepChange(posX - 1, posY + 1, type);
 				}
-				else
-				{
-					m.PrepChange(posX, posY, AIR);
-				}
+			}
+			else if (!matList[posY + 1][posX + 1]->updated && matList[posY + 1][posX + 1]->density < density && matList[posY][posX + 1]->density < density)
+			{
+				m.PrepChange(posX, posY, matList[posY + 1][posX + 1]->type);
+				m.PrepChange(posX + 1, posY + 1, type);
+			}
+			else if (!matList[posY + 1][posX - 1]->updated && matList[posY + 1][posX - 1]->density < density && matList[posY][posX - 1]->density < density)
+			{
+				m.PrepChange(posX, posY, matList[posY + 1][posX - 1]->type);
+				m.PrepChange(posX - 1, posY + 1, type);
 			}
 		}
 	}

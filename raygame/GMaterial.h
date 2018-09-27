@@ -7,9 +7,9 @@ public:
 	int posX;
 	int posY;
 	Color color;
-	bool stationary;
 	bool liquid;
 	bool flamable;
+	bool updated;
 	float density;
 	MatType type;
 	GMaterial();

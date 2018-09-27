@@ -21,6 +21,7 @@ int main()
 	int screenWidth = 400;
 	int screenHeight = 500;
 	int playHeight = screenHeight - 100; 
+	int brushSize = 3;
 
 	MatType currBrush = WALL;
 
@@ -61,8 +62,15 @@ int main()
 		int y = mpos.y;
 		if (IsMouseButtonDown(MOUSE_LEFT_BUTTON) && x < screenWidth && y < playHeight && x > -1 && y > -1)
 		{
-			mMan.PrepChange(x, y, currBrush);
-			mMan.ExecuteChanges(matList);
+			mMan.PaintMaterial(matList, x, y, currBrush);
+			mMan.PaintMaterial(matList, x, y + 1, currBrush);
+			mMan.PaintMaterial(matList, x, y - 1, currBrush);
+			mMan.PaintMaterial(matList, x + 1, y, currBrush);
+			mMan.PaintMaterial(matList, x + 1, y + 1, currBrush);
+			mMan.PaintMaterial(matList, x + 1, y - 1, currBrush);
+			mMan.PaintMaterial(matList, x - 1, y, currBrush);
+			mMan.PaintMaterial(matList, x - 1, y + 1, currBrush);
+			mMan.PaintMaterial(matList, x - 1, y - 1, currBrush);
 		}
 		else if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
 		{
@@ -79,6 +87,9 @@ int main()
 				currBrush = SAND;
 				break;
 			case SAND:
+				currBrush = OIL;
+				break;
+			case OIL:
 				currBrush = AIR;
 				break;
 			}
@@ -93,6 +104,7 @@ int main()
 				mMan.ExecuteChanges(matList);
 			}
 		}
+		mMan.ClearUpdates(matList, playHeight, screenWidth);
 		// Draw
 		//----------------------------------------------------------------------------------
 		BeginDrawing();
@@ -108,6 +120,8 @@ int main()
 		}
 
 		DrawPixel(x, y, WHITE);
+
+		mMan.PrintMatInfo(matList, x, y);
 		
 		EndDrawing();
 		//----------------------------------------------------------------------------------

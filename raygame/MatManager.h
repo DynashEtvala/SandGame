@@ -13,5 +13,8 @@ public:
 	~MatManager();
 	void PrepChange(int, int, MatType);
 	void ExecuteChanges(class GMaterial***);
+	void ClearUpdates(class GMaterial***, int, int);
+	void PaintMaterial(class GMaterial***, int, int, MatType);
+	void PrintMatInfo(class GMaterial***, int, int);
 };
 

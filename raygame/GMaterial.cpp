@@ -7,11 +7,11 @@ GMaterial::GMaterial()
 	posX = 0;
 	posY = 0;
 	color = BLANK;
-	stationary = false;
 	flamable = false;
 	liquid = false;
 	density = 0;
 	type = AIR;
+	updated = false;
 }
 
 
@@ -20,11 +20,11 @@ GMaterial::GMaterial(int X, int Y)
 	posX = X;
 	posY = Y;
 	color = BLANK;
-	stationary = false;
 	flamable = false;
 	liquid = false;
 	density = 0;
 	type = AIR;
+	updated = false;
 }
 
 
