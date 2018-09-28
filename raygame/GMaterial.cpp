@@ -9,9 +9,11 @@ GMaterial::GMaterial()
 	color = BLANK;
 	flamable = false;
 	liquid = false;
+	grain = false;
 	density = 0;
 	type = AIR;
-	updated = false;
+	updatedFrame = false;
+	updatedLine = false;
 }
 
 
@@ -22,9 +24,11 @@ GMaterial::GMaterial(int X, int Y)
 	color = BLANK;
 	flamable = false;
 	liquid = false;
+	grain = false;
 	density = 0;
 	type = AIR;
-	updated = false;
+	updatedFrame = false;
+	updatedLine = false;
 }
 
 

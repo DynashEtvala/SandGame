@@ -13,7 +13,16 @@
 
 #include "MaterialIncludes.h"
 #include "MatManager.h"
-
+int ExpoGrow(int val, int exp)
+{
+	int result = 1;
+	while (exp > 0)
+	{
+		result *= val;
+		exp--;
+	}
+	return result;
+}
 int main()
 {
 	// Initialization
@@ -23,9 +32,13 @@ int main()
 	int playHeight = screenHeight - 100; 
 	int brushSize = 3;
 
+	int speed = 0;
+	int frameCount = 0;
+
 	MatType currBrush = WALL;
 
 	GMaterial*** matList = new GMaterial**[playHeight];
+
 	for (int i = 0; i < playHeight; i++)
 	{
 		matList[i] = new GMaterial*[screenWidth];
@@ -39,13 +52,13 @@ int main()
 		}
 	}
 
-	MatManager mMan;
+	MatManager mMan = MatManager(playHeight, screenWidth);
 
-	InitWindow(screenWidth, screenHeight, "Quicksand");
+	InitWindow(screenWidth, screenHeight, "Sand Game");
 
 	HideCursor();
 
-	SetTargetFPS(60);
+	SetTargetFPS(120);
 	//--------------------------------------------------------------------------------------
 
 
@@ -94,18 +107,34 @@ int main()
 				break;
 			}
 		}
-
-		for (int i = playHeight - 1; i >= 0; i--)
-		//for (int i = 0; i <playHeight; i++)
+		
+		if (frameCount >= ExpoGrow(2, speed))
 		{
-			for (int j = 0; j < screenWidth; j++)
-			//for (int j = screenWidth - 1; j >= 0; j--)
+			for (int i = playHeight - 1; i >= 0; i--)
+			//for (int i = 0; i <playHeight; i++)
 			{
-				matList[i][j]->Update(matList, playHeight, screenWidth, mMan);
-				mMan.ExecuteChanges(matList);
+
+				for (int j = 0; j < screenWidth; j++)
+				{
+					matList[i][j]->Update(matList, playHeight, screenWidth, mMan);
+					mMan.ExecuteChanges(matList);
+				}
+				mMan.ClearUpdatesLine(matList, i, screenWidth); 
+				
+				for (int j = screenWidth - 1; j >= 0; j--)
+				{
+					matList[i][j]->Update(matList, playHeight, screenWidth, mMan);
+					mMan.ExecuteChanges(matList);
+				}
+				mMan.ClearUpdatesLine(matList, i, screenWidth);
 			}
+			mMan.ClearUpdatesFrame(matList, playHeight, screenWidth);
+			frameCount = 0;
 		}
-		mMan.ClearUpdates(matList, playHeight, screenWidth);
+		else
+		{
+			frameCount++;
+		}
 		// Draw
 		//----------------------------------------------------------------------------------
 		BeginDrawing();

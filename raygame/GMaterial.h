@@ -8,8 +8,10 @@ public:
 	int posY;
 	Color color;
 	bool liquid;
+	bool grain;
 	bool flamable;
-	bool updated;
+	bool updatedFrame;
+	bool updatedLine;
 	float density;
 	MatType type;
 	GMaterial();

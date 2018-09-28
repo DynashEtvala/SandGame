@@ -42,6 +42,9 @@
     <ClCompile Include="Oil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Salt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Wall.h">
@@ -72,6 +75,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Oil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Salt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
