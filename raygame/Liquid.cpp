@@ -14,7 +14,7 @@ Liquid::~Liquid()
 
 void Liquid::Update(GMaterial*** matList, int bottom, int side, MatManager& m)
 {
-	if (!updated)
+	if (!matList[posY][posX - 1]->updated)
 	{
 		if (posY == bottom - 1)
 		{

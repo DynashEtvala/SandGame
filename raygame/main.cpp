@@ -60,7 +60,7 @@ int main()
 		Vector2 mpos = GetMousePosition();
 		int x = mpos.x;
 		int y = mpos.y;
-		if (IsMouseButtonDown(MOUSE_LEFT_BUTTON) && x < screenWidth && y < playHeight && x > -1 && y > -1)
+		if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
 		{
 			mMan.PaintMaterial(matList, x, y, currBrush);
 			mMan.PaintMaterial(matList, x, y + 1, currBrush);
@@ -96,9 +96,10 @@ int main()
 		}
 
 		for (int i = playHeight - 1; i >= 0; i--)
-		//for (int i = screenHeight - 75 - 1; i >= 0; i--)
+		//for (int i = 0; i <playHeight; i++)
 		{
 			for (int j = 0; j < screenWidth; j++)
+			//for (int j = screenWidth - 1; j >= 0; j--)
 			{
 				matList[i][j]->Update(matList, playHeight, screenWidth, mMan);
 				mMan.ExecuteChanges(matList);
