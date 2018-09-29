@@ -148,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Grain.h" />
+    <ClInclude Include="HelperMain.h" />
     <ClInclude Include="Liquid.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="GMaterial.h" />

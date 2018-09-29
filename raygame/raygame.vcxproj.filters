@@ -80,5 +80,8 @@
     <ClInclude Include="Salt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="HelperMain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

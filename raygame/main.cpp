@@ -10,19 +10,10 @@
 ********************************************************************************************/
 
 #include "Global.h"
+#include "HelperMain.h"
 
 #include "MaterialIncludes.h"
 #include "MatManager.h"
-int ExpoGrow(int val, int exp)
-{
-	int result = 1;
-	while (exp > 0)
-	{
-		result *= val;
-		exp--;
-	}
-	return result;
-}
 int main()
 {
 	// Initialization
@@ -34,6 +25,9 @@ int main()
 
 	int speed = 0;
 	int frameCount = 0;
+
+	Point lastMouse{ 0, 0 };
+	Point currMouse{ 0, 0 };
 
 	MatType currBrush = WALL;
 
@@ -65,25 +59,24 @@ int main()
 	// Main game loop
 	while (!WindowShouldClose())    // Detect window close button or ESC key
 	{
-
 		// Update
 		//----------------------------------------------------------------------------------
 		// TODO: Update your variables here
 		//----------------------------------------------------------------------------------
-		Vector2 mpos = GetMousePosition();
-		int x = mpos.x;
-		int y = mpos.y;
+		currMouse.X = GetMousePosition().x;
+		currMouse.Y = GetMousePosition().y;
+		
 		if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
 		{
-			mMan.PaintMaterial(matList, x, y, currBrush);
-			mMan.PaintMaterial(matList, x, y + 1, currBrush);
-			mMan.PaintMaterial(matList, x, y - 1, currBrush);
-			mMan.PaintMaterial(matList, x + 1, y, currBrush);
-			mMan.PaintMaterial(matList, x + 1, y + 1, currBrush);
-			mMan.PaintMaterial(matList, x + 1, y - 1, currBrush);
-			mMan.PaintMaterial(matList, x - 1, y, currBrush);
-			mMan.PaintMaterial(matList, x - 1, y + 1, currBrush);
-			mMan.PaintMaterial(matList, x - 1, y - 1, currBrush);
+			mMan.PaintMaterial(matList, currMouse.X, currMouse.Y, currBrush);
+			mMan.PaintMaterial(matList, currMouse.X, currMouse.Y + 1, currBrush);
+			mMan.PaintMaterial(matList, currMouse.X, currMouse.Y - 1, currBrush);
+			mMan.PaintMaterial(matList, currMouse.X + 1, currMouse.Y, currBrush);
+			mMan.PaintMaterial(matList, currMouse.X + 1, currMouse.Y + 1, currBrush);
+			mMan.PaintMaterial(matList, currMouse.X + 1, currMouse.Y - 1, currBrush);
+			mMan.PaintMaterial(matList, currMouse.X - 1, currMouse.Y, currBrush);
+			mMan.PaintMaterial(matList, currMouse.X - 1, currMouse.Y + 1, currBrush);
+			mMan.PaintMaterial(matList, currMouse.X - 1, currMouse.Y - 1, currBrush);
 		}
 		else if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
 		{
@@ -134,6 +127,8 @@ int main()
 		{
 			frameCount++;
 		}
+
+		lastMouse = currMouse;
 		// Draw
 		//----------------------------------------------------------------------------------
 		BeginDrawing();
@@ -148,9 +143,9 @@ int main()
 			}
 		}
 
-		DrawPixel(x, y, WHITE);
+		DrawPixel(currMouse.X, currMouse.Y, WHITE);
 
-		mMan.PrintMatInfo(matList, x, y);
+		mMan.PrintMatInfo(matList, currMouse.X, currMouse.Y);
 		
 		EndDrawing();
 		//----------------------------------------------------------------------------------
