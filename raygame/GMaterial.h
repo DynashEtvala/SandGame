@@ -18,5 +18,6 @@ public:
 	GMaterial(int, int);
 	~GMaterial();
 	virtual void Update(GMaterial***, int, int, class MatManager&);
+	bool CanUpdate();
 };
 

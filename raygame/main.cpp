@@ -113,7 +113,6 @@ int main()
 			for (int i = playHeight - 1; i >= 0; i--)
 			//for (int i = 0; i <playHeight; i++)
 			{
-
 				for (int j = 0; j < screenWidth; j++)
 				{
 					matList[i][j]->Update(matList, playHeight, screenWidth, mMan);

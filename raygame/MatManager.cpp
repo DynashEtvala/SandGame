@@ -35,6 +35,7 @@ void MatManager::ExecuteChanges(GMaterial*** matList)
 	{
 		if (newPosX[i] >= 0 && newPosX[i] < width && newPosY[i] >= 0 && newPosY[i] < height)
 		{
+			bool frameHold = matList[newPosY[i]][newPosX[i]]->updatedFrame;
 			delete matList[newPosY[i]][newPosX[i]];
 			switch (newMat[i])
 			{
@@ -58,6 +59,10 @@ void MatManager::ExecuteChanges(GMaterial*** matList)
 				matList[newPosY[i]][newPosX[i]]->updatedLine = true;
 				break;
 			}
+			if (matList[newPosY[i]][newPosX[i]]->liquid || matList[newPosY[i]][newPosX[i]]->grain)
+			{
+				matList[newPosY[i]][newPosX[i]]->updatedFrame = frameHold;
+			}
 		}
 	}
 	changesReady = 0;
@@ -67,7 +72,7 @@ void MatManager::ClearUpdatesLine(GMaterial*** matList, int row, int side)
 {
 	for (int j = 0; j < side; j++)
 	{
-		matList[row][j]->updatedFrame = false;
+		matList[row][j]->updatedLine = false;
 	}
 }
 

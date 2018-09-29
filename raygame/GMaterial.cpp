@@ -36,3 +36,8 @@ GMaterial::~GMaterial()
 {}
 
 void GMaterial::Update(GMaterial***, int, int, MatManager&){}
+
+bool GMaterial::CanUpdate()
+{
+	return (!updatedLine && !updatedFrame);
+}
