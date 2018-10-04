@@ -18,6 +18,10 @@ public:
 	void ExecuteChanges(class GMaterial***);
 	void ClearUpdatesLine(class GMaterial***, int, int);
 	void ClearUpdatesFrame(class GMaterial***, int, int);
+	void PaintCircle(GMaterial***, int, int, int, MatType);
+	void PaintLineLow(GMaterial***, int, int, int, int, MatType);
+	void PaintLineHigh(GMaterial***, int, int, int, int, MatType);
+	void PaintLine(GMaterial***, int, int, int, int, MatType);
 	void PaintMaterial(class GMaterial***, int, int, MatType);
 	void PrintMatInfo(class GMaterial***, int, int);
 };

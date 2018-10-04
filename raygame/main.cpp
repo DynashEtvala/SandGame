@@ -19,11 +19,11 @@ int main()
 	// Initialization
 	//--------------------------------------------------------------------------------------
 	int screenWidth = 400;
-	int screenHeight = 500;
-	int playHeight = screenHeight - 100; 
-	int brushSize = 3;
+	int screenHeight = screenWidth + 100;
+	int playHeight = screenWidth; 
+	int brushSize = 20;
 
-	int speed = 0;
+	int speed = 1;
 	int frameCount = 0;
 
 	Point lastMouse{ 0, 0 };
@@ -42,7 +42,15 @@ int main()
 	{
 		for (int j = 0; j < screenWidth; j++)
 		{
-			matList[i][j] = new GMaterial(j, i);
+			if (j == 0 || j == 1 || j == screenWidth - 1 || j == screenWidth - 2)
+			{
+				matList[i][j] = new Wall(j, i);
+				matList[i][j]->updatedFrame = true;
+			}
+			else
+			{
+				matList[i][j] = new GMaterial(j, i);
+			}
 		}
 	}
 
@@ -52,7 +60,7 @@ int main()
 
 	HideCursor();
 
-	SetTargetFPS(120);
+	SetTargetFPS(60);
 	//--------------------------------------------------------------------------------------
 
 
@@ -68,15 +76,7 @@ int main()
 		
 		if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
 		{
-			mMan.PaintMaterial(matList, currMouse.X, currMouse.Y, currBrush);
-			mMan.PaintMaterial(matList, currMouse.X, currMouse.Y + 1, currBrush);
-			mMan.PaintMaterial(matList, currMouse.X, currMouse.Y - 1, currBrush);
-			mMan.PaintMaterial(matList, currMouse.X + 1, currMouse.Y, currBrush);
-			mMan.PaintMaterial(matList, currMouse.X + 1, currMouse.Y + 1, currBrush);
-			mMan.PaintMaterial(matList, currMouse.X + 1, currMouse.Y - 1, currBrush);
-			mMan.PaintMaterial(matList, currMouse.X - 1, currMouse.Y, currBrush);
-			mMan.PaintMaterial(matList, currMouse.X - 1, currMouse.Y + 1, currBrush);
-			mMan.PaintMaterial(matList, currMouse.X - 1, currMouse.Y - 1, currBrush);
+			mMan.PaintCircle(matList, currMouse.X, currMouse.Y, brushSize, currBrush);
 		}
 		else if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
 		{
@@ -104,7 +104,6 @@ int main()
 		if (frameCount >= ExpoGrow(2, speed))
 		{
 			for (int i = playHeight - 1; i >= 0; i--)
-			//for (int i = 0; i <playHeight; i++)
 			{
 				for (int j = 0; j < screenWidth; j++)
 				{

@@ -1,6 +1,7 @@
 #include "MatManager.h"
 
 #include"MaterialIncludes.h"
+#include<cmath>
 
 MatManager::MatManager()
 {
@@ -82,14 +83,120 @@ void MatManager::ClearUpdatesFrame(GMaterial*** matList, int bottom, int side)
 	{
 		for (int j = 0; j < side; j++)
 		{
-			matList[i][j]->updatedFrame = false;
+			if (!(j == 0 || j == 1 || j == width - 1 || j == width - 2))
+			{
+				matList[i][j]->updatedFrame = false;
+			}
+		}
+	}
+}
+
+void MatManager::PaintCircle(GMaterial*** matList, int X0, int Y0, int radius, MatType type)
+{
+	int x = radius;
+	int y = 0;
+	int err = 0;
+
+	while (x >= y)
+	{
+		PaintLine(matList, X0 + x, Y0 + y, X0 - x, Y0 - y, type);
+		PaintLine(matList, X0 + y, Y0 + x, X0 - y, Y0 - x, type);
+		PaintLine(matList, X0 - y, Y0 + x, X0 + y, Y0 - x, type);
+		PaintLine(matList, X0 - x, Y0 + y, X0 + x, Y0 - y, type);
+
+		if (err <= 0)
+		{
+			y += 1;
+			err += 2 * y + 1;
+		}
+
+		if (err > 0)
+		{
+			x -= 1;
+			err -= 2 * x + 1;
+		}
+	}
+}
+
+void MatManager::PaintLineLow(GMaterial*** matList, int X1, int Y1, int X2, int Y2, MatType type)
+{
+	int dx = X2 - X1;
+	int dy = Y2 - Y1;
+	int yi = 1;
+	if (dy < 0)
+	{
+		yi = -1;
+		dy = -dy;
+	}
+	int D = 2 * dy - dx;
+	int y = Y1;
+
+	for (int x = X1; x <= X2; x++)
+	{
+		PaintMaterial(matList, x, y, type);
+		if (D > 0)
+		{
+			y = y + yi;
+			D = D - 2 * dx;
+		}
+		D = D + 2 * dy;
+	}
+}
+
+void MatManager::PaintLineHigh(GMaterial*** matList, int X1, int Y1, int X2, int Y2, MatType type)
+{
+	int dx = X2 - X1;
+	int dy = Y2 - Y1;
+	int xi = 1;
+	if (dx < 0)
+	{
+		xi = -1;
+		dx = -dx;
+	}
+	int D = 2 * dx - dy;
+	int x = X1;
+
+	for (int y = Y1; y <= Y2; y++)
+	{
+		PaintMaterial(matList, x, y, type);
+		if (D > 0)
+		{
+			x = x + xi;
+			D = D - 2 * dy;
+		}
+		D = D + 2 * dx;
+	}
+}
+
+void MatManager::PaintLine(GMaterial*** matList, int X1, int Y1, int X2, int Y2, MatType type)
+{
+	if (abs(Y2 - Y1) < abs(X2 - X1))
+	{
+		if (X1 > X2)
+		{
+			PaintLineLow(matList, X2, Y2, X1, Y1, type);
+		}
+		else
+		{
+			PaintLineLow(matList, X1, Y1, X2, Y2, type);
+		}
+	}
+	else
+	{
+		if (Y1 > Y2)
+		{
+			PaintLineHigh(matList, X2, Y2, X1, Y1, type);
+		}
+		else
+		{
+			PaintLineHigh(matList, X1, Y1, X2, Y2, type);
 		}
 	}
 }
 
 void MatManager::PaintMaterial(GMaterial*** matList, int X, int Y, MatType type)
 {
-	if (X >= 0 && X < width && Y >= 0 && Y < height)
+	if (X >= 2 && X < width - 2 && Y >= 0 && Y < height)
 	{
 		delete matList[Y][X];
 		switch (type)
