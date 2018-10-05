@@ -59,6 +59,10 @@ void MatManager::ExecuteChanges(GMaterial*** matList)
 				matList[newPosY[i]][newPosX[i]] = new Oil(newPosX[i], newPosY[i]);
 				matList[newPosY[i]][newPosX[i]]->updatedLine = true;
 				break;
+			case SALT:
+				matList[newPosY[i]][newPosX[i]] = new Salt(newPosX[i], newPosY[i]);
+				matList[newPosY[i]][newPosX[i]]->updatedLine = true;
+				break;
 			}
 			if (matList[newPosY[i]][newPosX[i]]->liquid || matList[newPosY[i]][newPosX[i]]->grain)
 			{
@@ -99,10 +103,10 @@ void MatManager::PaintCircle(GMaterial*** matList, int X0, int Y0, int radius, M
 
 	while (x >= y)
 	{
-		PaintLine(matList, X0 + x, Y0 + y, X0 - x, Y0 - y, type);
-		PaintLine(matList, X0 + y, Y0 + x, X0 - y, Y0 - x, type);
-		PaintLine(matList, X0 - y, Y0 + x, X0 + y, Y0 - x, type);
-		PaintLine(matList, X0 - x, Y0 + y, X0 + x, Y0 - y, type);
+		PaintLine(matList, X0 + x, Y0 + y, X0 - x, Y0 + y, type);
+		PaintLine(matList, X0 + y, Y0 + x, X0 + y, Y0 - x, type);
+		PaintLine(matList, X0 - y, Y0 + x, X0 - y, Y0 - x, type);
+		PaintLine(matList, X0 - x, Y0 - y, X0 + x, Y0 - y, type);
 
 		if (err <= 0)
 		{
@@ -216,6 +220,9 @@ void MatManager::PaintMaterial(GMaterial*** matList, int X, int Y, MatType type)
 			break;
 		case OIL:
 			matList[Y][X] = new Oil(X, Y);
+			break;
+		case SALT:
+			matList[Y][X] = new Salt(X, Y);
 			break;
 		}
 	}

@@ -96,6 +96,9 @@ int main()
 				currBrush = OIL;
 				break;
 			case OIL:
+				currBrush = SALT;
+				break;
+			case SALT:
 				currBrush = AIR;
 				break;
 			}
@@ -133,6 +136,8 @@ int main()
 		BeginDrawing();
 
 		ClearBackground(BLACK);
+
+		DrawRectangle(0, screenHeight - 100, screenWidth, 100, GRAY);
 
 		for (int i = 0; i < playHeight; i++)
 		{
