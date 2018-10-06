@@ -21,7 +21,7 @@ int main()
 	int screenWidth = 400;
 	int screenHeight = screenWidth + 100;
 	int playHeight = screenWidth; 
-	int brushSize = 20;
+	int brushSize = 10;
 
 	int speed = 1;
 	int frameCount = 0;
