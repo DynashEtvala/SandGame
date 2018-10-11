@@ -1,11 +1,11 @@
 #pragma once
-#include "Grain.h"
-class Salt :
-	public Grain
+#include "Wall.h"
+class Plant :
+	public Wall
 {
 public:
-	Salt(int, int);
-	~Salt();
+	Plant(int, int);
+	~Plant();
 	void Update(GMaterial***, int, int, class MatManager&);
 };
 

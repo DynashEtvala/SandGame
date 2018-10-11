@@ -45,6 +45,12 @@
     <ClCompile Include="Salt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SaltWater.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Plant.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Wall.h">
@@ -81,6 +87,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HelperMain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SaltWater.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Plant.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

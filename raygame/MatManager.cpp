@@ -63,6 +63,14 @@ void MatManager::ExecuteChanges(GMaterial*** matList)
 				matList[newPosY[i]][newPosX[i]] = new Salt(newPosX[i], newPosY[i]);
 				matList[newPosY[i]][newPosX[i]]->updatedLine = true;
 				break;
+			case SALTWATER:
+				matList[newPosY[i]][newPosX[i]] = new SaltWater(newPosX[i], newPosY[i]);
+				matList[newPosY[i]][newPosX[i]]->updatedLine = true;
+				break;
+			case PLANT:
+				matList[newPosY[i]][newPosX[i]] = new Plant(newPosX[i], newPosY[i]);
+				matList[newPosY[i]][newPosX[i]]->updatedLine = true;
+				break;
 			}
 			if (matList[newPosY[i]][newPosX[i]]->liquid || matList[newPosY[i]][newPosX[i]]->grain)
 			{
@@ -103,10 +111,47 @@ void MatManager::PaintCircle(GMaterial*** matList, int X0, int Y0, int radius, M
 
 	while (x >= y)
 	{
-		PaintLine(matList, X0 + x, Y0 + y, X0 - x, Y0 + y, type);
-		PaintLine(matList, X0 + y, Y0 + x, X0 + y, Y0 - x, type);
-		PaintLine(matList, X0 - y, Y0 + x, X0 - y, Y0 - x, type);
-		PaintLine(matList, X0 - x, Y0 - y, X0 + x, Y0 - y, type);
+		if (true)
+		{
+			PaintLine(matList, X0 + x, Y0 + y, X0 - x, Y0 + y, type);
+			PaintLine(matList, X0 + y, Y0 + x, X0 + y, Y0 - x, type);
+			PaintLine(matList, X0 - y, Y0 + x, X0 - y, Y0 - x, type);
+			PaintLine(matList, X0 - x, Y0 - y, X0 + x, Y0 - y, type);
+		}
+
+		if (err <= 0)
+		{
+			y += 1;
+			err += 2 * y + 1;
+		}
+
+		if (err > 0)
+		{
+			x -= 1;
+			err -= 2 * x + 1;
+		}
+	}
+}
+
+void MatManager::PaintCircleOutline(GMaterial*** matList, int X0, int Y0, int radius, MatType type)
+{
+	int x = radius;
+	int y = 0;
+	int err = 0;
+
+	while (x >= y)
+	{
+		if (true)
+		{
+			PaintMaterial(matList, X0 + x, Y0 + y, type);
+			PaintMaterial(matList, X0 - x, Y0 + y, type);
+			PaintMaterial(matList, X0 + x, Y0 - y, type);
+			PaintMaterial(matList, X0 - x, Y0 - y, type);
+			PaintMaterial(matList, X0 + y, Y0 + x, type);
+			PaintMaterial(matList, X0 - y, Y0 + x, type);
+			PaintMaterial(matList, X0 + y, Y0 - x, type);
+			PaintMaterial(matList, X0 - y, Y0 - x, type);
+		}
 
 		if (err <= 0)
 		{
@@ -198,9 +243,104 @@ void MatManager::PaintLine(GMaterial*** matList, int X1, int Y1, int X2, int Y2,
 	}
 }
 
+void MatManager::PaintCircleLineLow(GMaterial*** matList, int X1, int Y1, int X2, int Y2, int radius, MatType type)
+{
+	int dx = X2 - X1;
+	int dy = Y2 - Y1;
+	int yi = 1;
+	if (dy < 0)
+	{
+		yi = -1;
+		dy = -dy;
+	}
+	int D = 2 * dy - dx;
+	int y = Y1;
+
+	for (int x = X1; x <= X2; x++)
+	{
+		/*
+		if (x == X1 || x == X2)
+		{
+			PaintCircle(matList, x, y, radius, type);
+		}
+		else
+		{
+			PaintCircleOutline(matList, x, y, radius, type);
+		}
+		*/
+
+		PaintCircle(matList, x, y, radius, type);
+
+		if (D > 0)
+		{
+			y = y + yi;
+			D = D - 2 * dx;
+		}
+		D = D + 2 * dy;
+	}
+}
+
+void MatManager::PaintCircleLineHigh(GMaterial*** matList, int X1, int Y1, int X2, int Y2, int radius, MatType type)
+{
+	int dx = X2 - X1;
+	int dy = Y2 - Y1;
+	int xi = 1;
+	if (dx < 0)
+	{
+		xi = -1;
+		dx = -dx;
+	}
+	int D = 2 * dx - dy;
+	int x = X1;
+
+	for (int y = Y1; y <= Y2; y++)
+	{
+		if (y == Y1 || y == Y2)
+		{
+			PaintCircle(matList, x, y, radius, type);
+		}
+		else
+		{
+			PaintCircleOutline(matList, x, y, radius, type);
+		}
+		if (D > 0)
+		{
+			x = x + xi;
+			D = D - 2 * dy;
+		}
+		D = D + 2 * dx;
+	}
+}
+
+void MatManager::PaintCircleLine(GMaterial*** matList, int X1, int Y1, int X2, int Y2, int radius, MatType type)
+{
+	if (abs(Y2 - Y1) < abs(X2 - X1))
+	{
+		if (X1 > X2)
+		{
+			PaintCircleLineLow(matList, X2, Y2, X1, Y1, radius, type);
+		}
+		else
+		{
+			PaintCircleLineLow(matList, X1, Y1, X2, Y2, radius, type);
+		}
+	}
+	else
+	{
+		if (Y1 > Y2)
+		{
+			PaintCircleLineHigh(matList, X2, Y2, X1, Y1, radius, type);
+		}
+		else
+		{
+			PaintCircleLineHigh(matList, X1, Y1, X2, Y2, radius, type);
+		}
+	}
+}
+
 void MatManager::PaintMaterial(GMaterial*** matList, int X, int Y, MatType type)
 {
-	if (X >= 2 && X < width - 2 && Y >= 0 && Y < height)
+	if (X >= 2 && X < width - 2 && Y >= 0 && Y < height && matList[Y][X]->type != type)
 	{
 		delete matList[Y][X];
 		switch (type)
@@ -223,6 +363,9 @@ void MatManager::PaintMaterial(GMaterial*** matList, int X, int Y, MatType type)
 			break;
 		case SALT:
 			matList[Y][X] = new Salt(X, Y);
+			break;
+		case PLANT:
+			matList[Y][X] = new Plant(X, Y);
 			break;
 		}
 	}

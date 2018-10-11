@@ -18,12 +18,12 @@ int main()
 {
 	// Initialization
 	//--------------------------------------------------------------------------------------
-	int screenWidth = 400;
+	int screenWidth = 800;
 	int screenHeight = screenWidth + 100;
 	int playHeight = screenWidth; 
 	int brushSize = 10;
 
-	int speed = 1;
+	int speed = 0;
 	int frameCount = 0;
 
 	Point lastMouse{ 0, 0 };
@@ -76,7 +76,7 @@ int main()
 		
 		if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
 		{
-			mMan.PaintCircle(matList, currMouse.X, currMouse.Y, brushSize, currBrush);
+			mMan.PaintCircleLine(matList, currMouse.X, currMouse.Y, lastMouse.X, lastMouse.Y, brushSize, currBrush);
 		}
 		else if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
 		{
@@ -99,6 +99,9 @@ int main()
 				currBrush = SALT;
 				break;
 			case SALT:
+				currBrush = PLANT;
+				break;
+			case PLANT:
 				currBrush = AIR;
 				break;
 			}
@@ -143,7 +146,10 @@ int main()
 		{
 			for (int j = 0; j < screenWidth; j++)
 			{
-				DrawPixel(matList[i][j]->posX, matList[i][j]->posY, matList[i][j]->color);
+				if (matList[i][j]->type != AIR)
+				{
+					DrawPixel(matList[i][j]->posX, matList[i][j]->posY, matList[i][j]->color);
+				}
 			}
 		}
 

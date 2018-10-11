@@ -141,7 +141,9 @@
     <ClCompile Include="GMaterial.cpp" />
     <ClCompile Include="MatManager.cpp" />
     <ClCompile Include="Oil.cpp" />
+    <ClCompile Include="Plant.cpp" />
     <ClCompile Include="Salt.cpp" />
+    <ClCompile Include="SaltWater.cpp" />
     <ClCompile Include="Sand.cpp" />
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="Water.cpp" />
@@ -155,7 +157,9 @@
     <ClInclude Include="MaterialIncludes.h" />
     <ClInclude Include="MatManager.h" />
     <ClInclude Include="Oil.h" />
+    <ClInclude Include="Plant.h" />
     <ClInclude Include="Salt.h" />
+    <ClInclude Include="SaltWater.h" />
     <ClInclude Include="Sand.h" />
     <ClInclude Include="Wall.h" />
     <ClInclude Include="Water.h" />
