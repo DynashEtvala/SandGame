@@ -10,10 +10,11 @@
 ********************************************************************************************/
 
 #include "Global.h"
-#include "HelperMain.h"
 
 #include "MaterialIncludes.h"
 #include "MatManager.h"
+#include "HelperMain.h"
+
 int main()
 {
 	// Initialization

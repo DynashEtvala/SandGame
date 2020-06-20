@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{100AB646-1529-43F3-B9D1-2C0A798642FF}</ProjectGuid>
     <RootNamespace>raygame</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
     <ProjectName>SandGame</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -156,6 +156,7 @@
     <ClInclude Include="Global.h" />
     <ClInclude Include="GMaterial.h" />
     <ClInclude Include="MaterialIncludes.h" />
+    <ClInclude Include="Math.h" />
     <ClInclude Include="MatManager.h" />
     <ClInclude Include="Oil.h" />
     <ClInclude Include="Plant.h" />

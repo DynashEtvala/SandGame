@@ -1,7 +1,6 @@
 #include "MatManager.h"
-
+#include "Math.h"
 #include"MaterialIncludes.h"
-#include<cmath>
 
 MatManager::MatManager()
 {
@@ -219,7 +218,7 @@ void MatManager::PaintLineHigh(GMaterial*** matList, int X1, int Y1, int X2, int
 
 void MatManager::PaintLine(GMaterial*** matList, int X1, int Y1, int X2, int Y2, MatType type)
 {
-	if (abs(Y2 - Y1) < abs(X2 - X1))
+	if (Abs(Y2 - Y1) < Abs(X2 - X1))
 	{
 		if (X1 > X2)
 		{
@@ -314,7 +313,7 @@ void MatManager::PaintCircleLineHigh(GMaterial*** matList, int X1, int Y1, int X
 
 void MatManager::PaintCircleLine(GMaterial*** matList, int X1, int Y1, int X2, int Y2, int radius, MatType type)
 {
-	if (abs(Y2 - Y1) < abs(X2 - X1))
+	if (Abs(Y2 - Y1) < Abs(X2 - X1))
 	{
 		if (X1 > X2)
 		{
